@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@angular/common": "^19.0.5",
+    "bootstrap": "^5.3.3"
+  }
+}

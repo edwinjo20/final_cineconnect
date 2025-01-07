@@ -1,0 +1,20 @@
+<h2>Add Film (Admin Only)</h2>
+
+<form (ngSubmit)="addFilm()">
+  <label for="title">Title:</label>
+  <input id="title" [(ngModel)]="filmData.title" name="title" required />
+
+  <label for="description">Description:</label>
+  <textarea id="description" [(ngModel)]="filmData.description" name="description" required></textarea>
+
+  <label for="releaseDate">Release Date:</label>
+  <input type="date" id="releaseDate" [(ngModel)]="filmData.releaseDate" name="releaseDate" required />
+
+  <label for="genre">Genre:</label>
+  <input id="genre" [(ngModel)]="filmData.genre" name="genre" required />
+
+  <label for="imagePath">Image Path (optional):</label>
+  <input id="imagePath" [(ngModel)]="filmData.imagePath" name="imagePath" />
+
+  <button type="submit">Add Film</button>
+</form>
