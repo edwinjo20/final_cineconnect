@@ -6,14 +6,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
   standalone: true,
-  template: `
-    <nav>
-      <a routerLink="/films">Films</a>
-      <a *ngIf="!isLoggedIn" routerLink="/login">Login</a>
-      <button *ngIf="isLoggedIn" (click)="logout()">Logout</button>
-    </nav>
-    <router-outlet></router-outlet>
-  `,
+  templateUrl: './app-root.component.html',
   styleUrls: ['./app-root.component.css'],
   imports: [RouterModule, FormsModule, CommonModule],
 })

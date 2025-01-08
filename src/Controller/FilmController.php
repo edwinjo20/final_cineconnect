@@ -17,11 +17,21 @@ class FilmController extends AbstractController
     #[Route('/api/films', name: 'api_films', methods: ['GET'])]
     public function index(FilmRepository $filmRepository): JsonResponse
     {
-        // Fetch all films from the repository
         $films = $filmRepository->findAll();
-
-        // Return the films with the proper serialization group
-        return $this->json($films, 200, [], ['groups' => 'film:read']);
+    
+        $data = [];
+        foreach ($films as $film) {
+            $data[] = [
+                'id' => $film->getId(),
+                'title' => $film->getTitle(),
+                'description' => $film->getDescription(),
+                'releaseDate' => $film->getReleaseDate()->format('Y-m-d'),
+                'genre' => $film->getGenre(),
+                'imagePath' => $film->getImagePath(),  // ✅ Use the database value
+            ];
+        }
+    
+        return $this->json($data);
     }
 
     // Protected Endpoint: Admin required to add a film

@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
   selector: 'app-film-list',
   imports: [CommonModule, FormsModule],
@@ -22,19 +21,20 @@ export class FilmListComponent implements OnInit {
     this.fetchFilms();
   }
 
-  // ✅ Check if the user is logged in
   checkLoginStatus(): void {
     const storedUser = localStorage.getItem('user');
     this.isLoggedIn = !!storedUser;
   }
 
-  // ✅ Fetch the list of films from the backend
   fetchFilms(): void {
     this.http.get('http://localhost:8000/api/films').subscribe(
       (response: any) => {
-        this.films = response;
-
-        // Initialize review input for each film
+        this.films = response.map((film: any) => {
+          // ✅ Use the imagePath directly from the backend response
+          film.imagePath = `http://localhost:4200/${film.imagePath}`;
+          return film;
+        });
+  
         this.films.forEach((film) => {
           this.reviews[film.id] = { content: '', rating: 0 };
         });
@@ -44,8 +44,8 @@ export class FilmListComponent implements OnInit {
       }
     );
   }
+  
 
-  // ✅ Submit a review for a specific film
   submitReview(filmId: number): void {
     if (!this.isLoggedIn) {
       alert('You need to log in to write a review.');
@@ -61,7 +61,7 @@ export class FilmListComponent implements OnInit {
     }
 
     const reviewData = {
-      userId: 1, // Replace with the actual user ID from your authentication
+      userId: 1, // Replace with the actual logged-in user's ID
       filmId: filmId,
       content: reviewContent,
       ratingGiven: reviewRating,
@@ -79,10 +79,8 @@ export class FilmListComponent implements OnInit {
     );
   }
 
-  // ✅ Logout the user
   logout(): void {
     localStorage.removeItem('user');
-    localStorage.removeItem('token');
     this.isLoggedIn = false;
     location.reload();
   }
